@@ -22,7 +22,7 @@ Diese muss zur pom hinzugefügt werden:
         <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
     </dependency>
 
-Zur Validierung des Tokens werden folgende [application.properties](https://github.com/patrickhofmann0/spring-rest-oauth-example/blob/master/src/main/resources/application.properties) benötigt: 
+Zur Validierung des Tokens werden folgende [application.properties](src/main/resources/application.properties) benötigt: 
 
     keycloak.url=${KEYCLOAK_URL}
     keycloak.realm=${KEYCLOAK_REALM}
@@ -30,7 +30,7 @@ Zur Validierung des Tokens werden folgende [application.properties](https://gith
     spring.security.oauth2.resourceserver.jwt.issuer-uri=${keycloak.url}/auth/realms/${keycloak.realm}
     spring.security.oauth2.resourceserver.jwt.jwk-set-uri=${keycloak.url}/auth/realms/${keycloak.realm}/protocol/openid-connect/certs
 
-In der [WebSecurityConfig](https://github.com/patrickhofmann0/spring-rest-oauth-example/blob/master/src/main/java/de/ecclesia/example/springrestoauth/springrestoauthexample/WebSecurityConfig.java) (in der aktuellen Version von spring security ist der WebSecurityConfigurerAdapter deprecated) 
+In der [WebSecurityConfig](src/main/java/de/ecclesia/example/springrestoauth/springrestoauthexample/WebSecurityConfig.java) (in der aktuellen Version von spring security ist der WebSecurityConfigurerAdapter deprecated) 
 werden wie bisher die Zugriffsrechte definiert (in diesem Beispiel nur .authenticated()).
 
     http.authorizeRequests()
