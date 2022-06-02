@@ -11,5 +11,10 @@ public class HelloWorldController {
 		return "Hello World!";
 	}
 
+	@GetMapping("/unauthorized")
+	public String unauthorized() {
+		return "!! unauthorized !!";
+	}
+
 }
 
