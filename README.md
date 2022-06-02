@@ -2,27 +2,27 @@
 
 ### How to start
 
-Vorraussetzungen: 
+Voraussetzungen: 
 * Java 17
 * Maven
 
-Um das Backend zu starten, reicht es aus die Umgebungsvariablen für keylcoak aus den application.properties zu setzen 
+Um das Backend zu starten, reicht es aus die Umgebungsvariablen für Keycloak aus den application.properties zu setzen 
 und die intellij run config zu nutzen oder mvn spring-boot:run auszuführen. 
 
 ### Some details
 
-Bisher nutzen wir in vielen Fällen, 
-die keycloak spring boot starter dependency um unsere rest backends oder apis über keycloak abzusichern.
+Bisher nutzen wir in vielen Fällen  die Keycloak spring boot starter dependency um unsere rest backends oder apis über
+Keycloak abzusichern.
 
-Dieses Code Beispiel zeigt die alternative Implementierung über die spring oauth2-resource-server dependency, die zur pom hinzugefügt werden muss.
+Dieses Code Beispiel zeigt eine alternative Implementierung über die spring oauth2-resource-server dependency. 
+Diese muss zur pom hinzugefügt werden:
 
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
     </dependency>
 
-
-Zur Validierung des tokens werden folgende properties benötigt: 
+Zur Validierung des Tokens werden folgende properties benötigt: 
 
     keycloak.url=${KEYCLOAK_URL}
     keycloak.realm=${KEYCLOAK_REALM}
@@ -30,7 +30,8 @@ Zur Validierung des tokens werden folgende properties benötigt:
     spring.security.oauth2.resourceserver.jwt.issuer-uri=${keycloak.url}/auth/realms/${keycloak.realm}
     spring.security.oauth2.resourceserver.jwt.jwk-set-uri=${keycloak.url}/auth/realms/${keycloak.realm}/protocol/openid-connect/certs
 
-In der WebSecurityConfig werden wie bisher die Zugriffsrechte definiert (in diesem Beispiel nur .authenticated()).
+In der WebSecurityConfig (in der aktuellen Version von spring security ist der WebSecurityConfigurerAdapter deprecated) 
+werden wie bisher die Zugriffsrechte definiert (in diesem Beispiel nur .authenticated()).
 
     http.authorizeRequests()
         .antMatchers("/hello")
@@ -45,11 +46,11 @@ Um die Endpunkte nun über oauth abzusichern:
         .oauth2ResourceServer()
         .jwt(); // typ des tokens
 
-Für die Keycloaktokens muss ein Converter implementiert werden, um die Rollen aus dem Token zu konvertieren. 
+Für die von Keycloak erstellten Tokens muss ein Konverter implementiert werden, um die Rollen aus dem Token zu konvertieren. 
 
         .jwtAuthenticationConverter(jwtAuthenticationConverter());
 
-Je nach dem welche Rollen benötigt werden. Kombination ist auch möglich.
+Je nach dem welche Rollen benötigt werden. Eine Kombination der beiden Konverter ist auch möglich.
 
     // für realm roles
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
